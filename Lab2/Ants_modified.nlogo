@@ -2,6 +2,7 @@ globals [
   food-in-nest         ;; [ЛР2] кількість їжі, зібраної в гнізді (запас колонії)
   ants-born            ;; [ЛР2] скільки мурах народилося за час прогону
   ants-died            ;; [ЛР2] скільки мурах загинуло від голоду
+  delivered            ;; [ЛР2] список: скільки порцій їжі принесено з кожного джерела
 ]
 
 patches-own [
@@ -10,11 +11,14 @@ patches-own [
   nest?                ;; true on nest patches, false elsewhere
   nest-scent           ;; number that is higher closer to the nest
   food-source-number   ;; number (1 .. food-sources) to identify the food sources
+  food-value           ;; [ЛР2] калорійність їжі на клітинці (однакова для всієї купки)
 ]
 
 turtles-own [
   energy               ;; [ЛР2] запас сил мурахи: зменшується щотакту, поновлюється при знаходженні їжі
   departure            ;; [ЛР2] такт, з якого мураха може вийти з гнізда
+  carried-value        ;; [ЛР2] калорійність їжі, яку несе мураха
+  carried-source       ;; [ЛР2] з якого джерела ця їжа
 ]
 
 ;;;;;;;;;;;;;;;;;;;;;;;;
@@ -28,6 +32,7 @@ to setup
   [ setup-ant
     set departure who ]  ;; як і в оригіналі, мурахи виходять з гнізда по одній за такт
   setup-patches
+  set delivered n-values food-sources [ 0 ]  ;; [ЛР2] лічильники по джерелах
   reset-ticks
 end
 
@@ -64,11 +69,22 @@ to setup-food  ;; observer procedure
         and not any? patches in-radius 12
                      with [ food-source-number > 0 ] ]
     if center = nobody [ stop ]  ;; на полі більше немає вільного місця
+    let value pile-value number  ;; [ЛР2] калорійність визначається один раз для всієї купки
     ask center
     [ ask patches with [ distance myself < 5 ]
       [ set food-source-number number
+        set food-value value
         set food one-of [1 2] ] ]  ;; set "food" at sources to either 1 or 2, randomly
     set number number + 1 ]
+end
+
+;; [ЛР2] калорійність купки залежно від режиму calorie-mode:
+;; "off" - усі купки 1 (як в оригіналі), "random" - випадково від 1 до max-value,
+;; "one rich" - купка №1 має max-value, решта 1 (для експерименту)
+to-report pile-value [ number ]
+  if calorie-mode = "random" [ report 1 + random max-value ]
+  if calorie-mode = "one rich" [ report ifelse-value (number = 1) [ max-value ] [ 1 ] ]
+  report 1
 end
 
 to recolor-patch  ;; patch procedure
@@ -81,9 +97,11 @@ to recolor-patch  ;; patch procedure
     [ set pcolor scale-color green chemical 0.1 5 ] ]
 end
 
-;; [ЛР2] кольори джерел чергуються, бо джерел може бути більше трьох
+;; [ЛР2] кольори джерел чергуються, бо джерел може бути більше трьох;
+;; з калорійністю колір показує цінність: чим яскравіше жовтий, тим калорійніше
 to-report food-color  ;; patch reporter
-  report item ((food-source-number - 1) mod 3) (list cyan sky blue)
+  if calorie-mode = "off" [ report item ((food-source-number - 1) mod 3) (list cyan sky blue) ]
+  report scale-color yellow food-value -1 (max-value + 1)
 end
 
 ;;;;;;;;;;;;;;;;;;;;;
@@ -110,10 +128,12 @@ end
 to return-to-nest  ;; turtle procedure
   ifelse nest?
   [ ;; drop food and head out again
-    set food-in-nest food-in-nest + 1   ;; [ЛР2] їжа потрапляє до запасу гнізда
+    set food-in-nest food-in-nest + carried-value   ;; [ЛР2] до запасу гнізда додаються калорії
+    set delivered replace-item (carried-source - 1) delivered
+                               (item (carried-source - 1) delivered + 1)
     set color red
     rt 180 ]
-  [ set chemical chemical + 60  ;; drop some chemical
+  [ set chemical chemical + 60 * carried-value  ;; [ЛР2] чим калорійніша їжа, тим сильніший слід
     uphill-nest-scent ]         ;; head toward the greatest value of nest-scent
 end
 
@@ -122,6 +142,8 @@ to look-for-food  ;; turtle procedure
   [ set color orange + 1     ;; pick up food
     set food food - 1        ;; and reduce the food source
     set energy max-energy    ;; [ЛР2] мураха підкріплюється біля джерела
+    set carried-value food-value           ;; [ЛР2] мураха дізнається калорійність
+    set carried-source food-source-number  ;; [ЛР2] і запам'ятовує, з якої купки їжа
     rt 180                   ;; and turn around
     stop ]
   ;; go in the direction where the chemical smell is strongest
@@ -446,6 +468,42 @@ false
 PENS
 "ants" 1.0 0 -2674135 true "" "plotxy ticks count turtles"
 
+CHOOSER
+5
+485
+248
+530
+calorie-mode
+calorie-mode
+"off" "random" "one rich"
+0
+
+SLIDER
+5
+535
+248
+568
+max-value
+max-value
+1.0
+10.0
+5.0
+1.0
+1
+NIL
+HORIZONTAL
+
+MONITOR
+257
+525
+762
+570
+delivered by pile
+delivered
+0
+1
+11
+
 @#$#@#$#@
 ## ЗМІНИ (ЛР2, варіант 10)
 
@@ -454,6 +512,7 @@ PENS
 * **reproduction?** - відключаєма поява нових мурах: коли в гнізді є **ant-cost** одиниць їжі, з'являється нова мураха.
 * Графік **Ants** - зміна кількості мурах.
 * Власна зміна: **starvation?** - мураха витрачає сили щотакту і гине, якщо за **max-energy** тактів не знайде їжу.
+* Власна зміна: **calorie-mode** - калорійність купок ("off", "random" - випадково від 1 до **max-value**, "one rich" - купка №1 має **max-value**, решта 1). Мураха з калорійнішою їжею залишає сильніший слід, а в гніздо додаються калорії. Монітор **delivered by pile** - скільки порцій принесено з кожної купки.
 
 ## WHAT IS IT?
 
