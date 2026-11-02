@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<!DOCTYPE experiments SYSTEM "behaviorspace.dtd">
+<experiments>
+  <experiment name="exp" repetitions="10" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="30000"/>
+    <exitCondition>not any? patches with [food &gt; 0]</exitCondition>
+    <metric>ticks</metric>
+    <metric>count turtles</metric>
+    <metric>ants-born</metric>
+    <metric>food-in-nest</metric>
+    <enumeratedValueSet variable="population"><value value="10"/><value value="25"/><value value="50"/><value value="75"/><value value="100"/><value value="150"/></enumeratedValueSet>
+    <enumeratedValueSet variable="reproduction?"><value value="false"/><value value="true"/></enumeratedValueSet>
+    <enumeratedValueSet variable="starvation?"><value value="false"/></enumeratedValueSet>
+    <enumeratedValueSet variable="food-sources"><value value="3"/></enumeratedValueSet>
+    <enumeratedValueSet variable="ant-cost"><value value="5"/></enumeratedValueSet>
+    <enumeratedValueSet variable="diffusion-rate"><value value="50"/></enumeratedValueSet>
+    <enumeratedValueSet variable="evaporation-rate"><value value="10"/></enumeratedValueSet>
+  </experiment>
+</experiments>
