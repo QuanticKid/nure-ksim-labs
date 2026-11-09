@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<!DOCTYPE search SYSTEM "behaviorsearch.dtd">
+<search>
+    <bsearchVersionNumber>1,10</bsearchVersionNumber>
+    <modelInfo>
+        <modelFile>Ants_modified.nlogo</modelFile>
+        <modelSetupCommands>setup</modelSetupCommands>
+        <modelStepCommands>go</modelStepCommands>
+        <modelStopCondition>not any? patches with [food &gt; 0]</modelStopCondition>
+        <modelStepLimit>5000</modelStepLimit>
+        <modelMetricReporter>ticks</modelMetricReporter>
+        <modelMeasureIf>true</modelMeasureIf>
+    </modelInfo>
+    <fitnessInfo>
+        <fitnessMinimized>true</fitnessMinimized>
+        <fitnessCollecting>AT_FINAL_STEP</fitnessCollecting>
+        <fitnessSamplingReplications>5</fitnessSamplingReplications>
+        <fitnessCombineReplications>MEAN</fitnessCombineReplications>
+    </fitnessInfo>
+    <searchSpace>
+        <paramSpec>["population" [5 5 50]]</paramSpec>
+        <paramSpec>["diffusion-rate" [0 1 99]]</paramSpec>
+        <paramSpec>["evaporation-rate" [0 1 99]]</paramSpec>
+        <paramSpec>["ant-cost" [1 1 20]]</paramSpec>
+        <paramSpec>["reproduction?" true]</paramSpec>
+        <paramSpec>["starvation?" false]</paramSpec>
+        <paramSpec>["food-sources" 3]</paramSpec>
+        <paramSpec>["calorie-mode" "off"]</paramSpec>
+    </searchSpace>
+    <searchMethod type="StandardGA">
+        <searchMethodParameter name="mutation-rate" value="0.05"/>
+        <searchMethodParameter name="crossover-rate" value="0.7"/>
+        <searchMethodParameter name="population-size" value="30"/>
+        <searchMethodParameter name="tournament-size" value="3"/>
+        <searchMethodParameter name="population-model" value="generational"/>
+    </searchMethod>
+    <chromosomeRepresentation type="MixedTypeChromosome"/>
+    <caching>false</caching>
+    <evaluationLimit>300</evaluationLimit>
+    <bestCheckingNumReplications>20</bestCheckingNumReplications>
+</search>

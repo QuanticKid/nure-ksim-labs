@@ -1,0 +1,6 @@
+"search-number","evaluation","population*","diffusion-rate*","evaporation-rate*","ant-cost*","reproduction?*","starvation?*","food-sources*","calorie-mode*","num-replicates","best-fitness-so-far","recheck-replications","best-fitness-rechecked"
+"1","300","50","55","3","1","true","false","3","""off""","5","410.8","20","425.75"
+"2","300","40","5","12","1","true","false","3","""off""","5","458.2","20","564.9"
+"3","300","50","64","12","2","true","false","3","""off""","5","623.4","20","757.2"
+"4","300","45","33","0","1","true","false","3","""off""","5","516","20","510.95"
+"5","300","40","77","94","1","true","false","3","""off""","5","652.4","20","720.5"

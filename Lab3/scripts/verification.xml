@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<!DOCTYPE experiments SYSTEM "behaviorspace.dtd">
+<experiments>
+  <experiment name="sweep-population" repetitions="10" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="5000"/>
+    <exitCondition>not any? patches with [food &gt; 0]</exitCondition>
+    <metric>ticks</metric>
+    <metric>count turtles</metric>
+    <enumeratedValueSet variable="reproduction?"><value value="true"/></enumeratedValueSet>
+    <enumeratedValueSet variable="starvation?"><value value="false"/></enumeratedValueSet>
+    <enumeratedValueSet variable="food-sources"><value value="3"/></enumeratedValueSet>
+    <enumeratedValueSet variable="calorie-mode"><value value="&quot;off&quot;"/></enumeratedValueSet>
+    <steppedValueSet variable="population" first="5" step="5" last="50"/>
+    <enumeratedValueSet variable="diffusion-rate"><value value="55"/></enumeratedValueSet>
+    <enumeratedValueSet variable="evaporation-rate"><value value="3"/></enumeratedValueSet>
+    <enumeratedValueSet variable="ant-cost"><value value="1"/></enumeratedValueSet>
+  </experiment>
+  <experiment name="sweep-diffusion-rate" repetitions="10" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="5000"/>
+    <exitCondition>not any? patches with [food &gt; 0]</exitCondition>
+    <metric>ticks</metric>
+    <metric>count turtles</metric>
+    <enumeratedValueSet variable="reproduction?"><value value="true"/></enumeratedValueSet>
+    <enumeratedValueSet variable="starvation?"><value value="false"/></enumeratedValueSet>
+    <enumeratedValueSet variable="food-sources"><value value="3"/></enumeratedValueSet>
+    <enumeratedValueSet variable="calorie-mode"><value value="&quot;off&quot;"/></enumeratedValueSet>
+    <steppedValueSet variable="diffusion-rate" first="0" step="10" last="90"/>
+    <enumeratedValueSet variable="population"><value value="50"/></enumeratedValueSet>
+    <enumeratedValueSet variable="evaporation-rate"><value value="3"/></enumeratedValueSet>
+    <enumeratedValueSet variable="ant-cost"><value value="1"/></enumeratedValueSet>
+  </experiment>
+  <experiment name="sweep-evaporation-rate" repetitions="10" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="5000"/>
+    <exitCondition>not any? patches with [food &gt; 0]</exitCondition>
+    <metric>ticks</metric>
+    <metric>count turtles</metric>
+    <enumeratedValueSet variable="reproduction?"><value value="true"/></enumeratedValueSet>
+    <enumeratedValueSet variable="starvation?"><value value="false"/></enumeratedValueSet>
+    <enumeratedValueSet variable="food-sources"><value value="3"/></enumeratedValueSet>
+    <enumeratedValueSet variable="calorie-mode"><value value="&quot;off&quot;"/></enumeratedValueSet>
+    <steppedValueSet variable="evaporation-rate" first="0" step="10" last="90"/>
+    <enumeratedValueSet variable="population"><value value="50"/></enumeratedValueSet>
+    <enumeratedValueSet variable="diffusion-rate"><value value="55"/></enumeratedValueSet>
+    <enumeratedValueSet variable="ant-cost"><value value="1"/></enumeratedValueSet>
+  </experiment>
+  <experiment name="sweep-ant-cost" repetitions="10" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="5000"/>
+    <exitCondition>not any? patches with [food &gt; 0]</exitCondition>
+    <metric>ticks</metric>
+    <metric>count turtles</metric>
+    <enumeratedValueSet variable="reproduction?"><value value="true"/></enumeratedValueSet>
+    <enumeratedValueSet variable="starvation?"><value value="false"/></enumeratedValueSet>
+    <enumeratedValueSet variable="food-sources"><value value="3"/></enumeratedValueSet>
+    <enumeratedValueSet variable="calorie-mode"><value value="&quot;off&quot;"/></enumeratedValueSet>
+    <steppedValueSet variable="ant-cost" first="1" step="2" last="19"/>
+    <enumeratedValueSet variable="population"><value value="50"/></enumeratedValueSet>
+    <enumeratedValueSet variable="diffusion-rate"><value value="55"/></enumeratedValueSet>
+    <enumeratedValueSet variable="evaporation-rate"><value value="3"/></enumeratedValueSet>
+  </experiment>
+  <experiment name="check-best" repetitions="20" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="5000"/>
+    <exitCondition>not any? patches with [food &gt; 0]</exitCondition>
+    <metric>ticks</metric>
+    <metric>count turtles</metric>
+    <enumeratedValueSet variable="reproduction?"><value value="true"/></enumeratedValueSet>
+    <enumeratedValueSet variable="starvation?"><value value="false"/></enumeratedValueSet>
+    <enumeratedValueSet variable="food-sources"><value value="3"/></enumeratedValueSet>
+    <enumeratedValueSet variable="calorie-mode"><value value="&quot;off&quot;"/></enumeratedValueSet>
+    <enumeratedValueSet variable="population"><value value="50"/></enumeratedValueSet>
+    <enumeratedValueSet variable="diffusion-rate"><value value="55"/></enumeratedValueSet>
+    <enumeratedValueSet variable="evaporation-rate"><value value="3"/></enumeratedValueSet>
+    <enumeratedValueSet variable="ant-cost"><value value="1"/></enumeratedValueSet>
+  </experiment>
+  <experiment name="check-default" repetitions="20" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="5000"/>
+    <exitCondition>not any? patches with [food &gt; 0]</exitCondition>
+    <metric>ticks</metric>
+    <metric>count turtles</metric>
+    <enumeratedValueSet variable="reproduction?"><value value="true"/></enumeratedValueSet>
+    <enumeratedValueSet variable="starvation?"><value value="false"/></enumeratedValueSet>
+    <enumeratedValueSet variable="food-sources"><value value="3"/></enumeratedValueSet>
+    <enumeratedValueSet variable="calorie-mode"><value value="&quot;off&quot;"/></enumeratedValueSet>
+    <enumeratedValueSet variable="population"><value value="50"/></enumeratedValueSet>
+    <enumeratedValueSet variable="diffusion-rate"><value value="50"/></enumeratedValueSet>
+    <enumeratedValueSet variable="evaporation-rate"><value value="10"/></enumeratedValueSet>
+    <enumeratedValueSet variable="ant-cost"><value value="5"/></enumeratedValueSet>
+  </experiment>
+</experiments>
